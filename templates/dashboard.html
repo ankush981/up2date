@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block page %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+                <h4>Manage Your Subscriptions</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                {% for category, websites in all_data.items(): %}
+                    <div class="col-md-3 category">
+                        <div class="category-heading">
+                            {{ category }}
+                        </div>
+                        <div class="category-list">
+                            <ul>
+                                {% for w in websites: %}
+                                    <li><input type="checkbox" class="website" id='{{ w[0] }}'> {{ w[1] }}&nbsp;&nbsp;<a href="{{ w[2] }}" target="_blank"><img src="{{ url_for('static', filename='img/icon-link.png') }}" width="12" height="12"></a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5"></div>
+        <div class="col-md-1">
+            <button class="btn btn-success" id="save">Save</button>
+        </div>
+        <div class="col-md-1">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Log out</a>
+        </div>
+        <div class="col-md-5"></div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            {% for s in subscriptions: %}
+                $("#{{s}}").attr("checked", true);
+            {% endfor %}
+
+            $(document).on('click', '#save', function(){
+                var selected = "";
+                $(".website").each(function(){                                   
+                    if ($(this).is(':checked') == true) {
+                        selected += ($(this).attr("id")) + ",";
+                    }                    
+                });
+                selected = selected.trim();
+                $.ajax({
+                    url     : "{{ url_for('save_subscriptions') }}",
+                    data    : {"selected": selected},
+                    type    : 'POST',
+                    success : function(e){
+                        if(e == 1)
+                            window.location.reload()
+                    },
+                    error   : function(a,b,c){
+                        alert("Oops, an error occurred! Please try again.");
+                        console.log(a);
+                        console.log(c);
+                    }
+                });
+
+            });
+        });
+    </script>
+{% endblock %}

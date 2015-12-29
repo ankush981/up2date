@@ -1,0 +1,5 @@
+log
+db_config.py
+venv/**
+scraper/classes/data/**
+**/__pycache__/**

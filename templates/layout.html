@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Up2date - Plough through reams of content in seconds!</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='jquery-2.1.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="logo">
+            <a href="{{ url_for('show_dashboard') }}"><img src="{{ url_for('static', filename='img/up2date-logo.png') }}" width="135" height="50"></a>
+        </div>
+        {% for message in get_flashed_messages() %}
+            <div class="row">
+                <div class="flash alert alert-warning">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Alert:</strong> {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+        {% block page %}
+        {% endblock %}
+    </div>
+</body>
+</html>

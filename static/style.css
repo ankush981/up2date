@@ -1,0 +1,31 @@
+.container {
+    margin: 20px auto;
+}
+
+.category {
+}
+
+.category-heading {
+    font-size: 1.2em;
+    color: #d9534f;
+    font-weight: bold;
+    text-align: center;
+}
+
+.category-list ul {
+    list-style-type: none;
+}
+
+.category-list li {
+    margin-left: 20px;
+    padding-bottom: 2px;
+}
+
+#logo {
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+.body {
+    font-family: sans-serif;
+}
