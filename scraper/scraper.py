@@ -7,12 +7,12 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# import db config from previous directory
-sys.path.insert(0, '..')
-import db_config
-
 # Read paths in relation to this file's directory, not the pwd
 this_dir = os.path.dirname(os.path.realpath(__file__))
+
+# import db config from previous directory
+sys.path.insert(0, this_dir + os.sep + '..')
+import db_config
 
 # The db and cursor objects
 db = None
