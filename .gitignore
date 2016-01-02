@@ -1,5 +1,7 @@
 log
 db_config.py
+wsgi.py
+run.sh
 venv/**
 scraper/classes/data/**
 **/__pycache__/**

@@ -9,24 +9,24 @@ DEBUG          = True
 SECRET_KEY     = '\xc6)\x0f\\\xc5\x86*\xd7[\x92\x89[\x95\xcfD\xfd\xc1\x18\x8e\xf1P\xf7_\r'
 
 # Create the flask app
-app = Flask(__name__)
-app.config.from_object(__name__)
+application = Flask(__name__)
+application.config.from_object(__name__)
 
 # Function to connect to DB
 def connect_db():
     return MySQLdb.connect(host=db_config.host, user=db_config.user, passwd=db_config.passwd, db=db_config.dbname, cursorclass=MySQLdb.cursors.DictCursor)
 
 # define functions that will make DB available automatically on each request
-@app.before_request
+@application.before_request
 def before_request():
     g.db = connect_db()
     g.cursor = g.db.cursor()
 
-@app.teardown_request
+@application.teardown_request
 def teardown_request(exception):
     g.cursor.close()
 
-@app.route('/')
+@application.route('/')
 def show_home():
     if 'logged_in' in session and session['logged_in'] == True:
         return redirect(url_for('show_dashboard'))
@@ -35,7 +35,7 @@ def show_home():
     else:
         return render_template('home.html', error=None)
 
-@app.route('/login', methods=['GET', 'POST'])
+@application.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         g.cursor.execute('SELECT email, password FROM users WHERE email = %s', [request.form['email']])
@@ -52,7 +52,7 @@ def login():
             flash('Wrong password / login error.')
             return redirect(url_for('show_home'))
 
-@app.route('/register', methods=['GET', 'POST'])
+@application.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         email = request.form['email']
@@ -62,7 +62,7 @@ def register():
         flash('Registration successful! You may log in now.')
         return redirect(url_for('show_home'))
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@application.route('/dashboard', methods=['GET', 'POST'])
 def show_dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('show_home'))
@@ -88,7 +88,7 @@ def show_dashboard():
             subscriptions = subscriptions['sites'].split(',')
             return render_template('dashboard.html', all_data=all_data, subscriptions=subscriptions)
 
-@app.route('/save', methods=['POST'])
+@application.route('/save', methods=['POST'])
 def save_subscriptions():
     if request.method == 'POST':
         sites = request.form.get('selected')
@@ -98,7 +98,7 @@ def save_subscriptions():
         flash("Subscriptions updated!")
         return "1"
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     session.pop('logged_in', None)
     session.pop('email', None)
@@ -106,4 +106,4 @@ def logout():
     return redirect(url_for('show_home'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    application.run(host='0.0.0.0', port=5000)
