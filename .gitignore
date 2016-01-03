@@ -1,6 +1,7 @@
 log
 db_config.py
 wsgi.py
+up2date.ini
 run.sh
 venv/**
 scraper/classes/data/**

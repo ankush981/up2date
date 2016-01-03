@@ -40,6 +40,10 @@ def login():
     if request.method == 'POST':
         g.cursor.execute('SELECT email, password FROM users WHERE email = %s', [request.form['email']])
         row = g.cursor.fetchone()
+        
+        f = open('/home/ankush/projects/up2date/log', 'w')
+        f.write(repr(row))
+        f.close()
 
         if not row:
             flash('No such user exists!')
