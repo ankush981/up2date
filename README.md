@@ -1,7 +1,7 @@
 # Up2date
 Makes following your favorite websites a snap!
 
-In a hurry? Go straight to the [app](http://plainsight.in:5000).
+In a hurry? Go straight to the [app](http://up2date.plainsight.in).
 
 ### Technologies used
 
@@ -19,7 +19,7 @@ Up2date was created to solve a problem I was facing: tracking multiple websites.
 
 ***Caveat:* No solution is perfect, and Up2date is the same. The downside here is that adding a new website means examining its structure and adding a class to the system.**
 
-The app is running [here](http://plainsight.in:5000) (please do not bookmark &ndash; I'll be changing the links soon).
+The app is running [here](http://up2date.plainsight.in).
 
 #### Installation instructions
 
