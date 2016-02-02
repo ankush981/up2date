@@ -1,5 +1,7 @@
 """
-The main scraper cron. The job of this script is to read all users' data from the DB, compile the necessary newsletters, and mail them. It works intelligently, crawling only those websites that have at least one subscription. 
+The main scraper cron. The job of this script is to read all users' data from the DB, 
+compile the necessary newsletters, and mail them. It works intelligently, crawling only 
+those websites that have at least one subscription. 
 """
 import MySQLdb, MySQLdb.cursors
 import os, os.path, sys
