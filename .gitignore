@@ -5,3 +5,4 @@ up2date.ini
 run.sh
 scraper/classes/data/**
 **/__pycache__/**
+*sublime*
