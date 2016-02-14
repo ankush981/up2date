@@ -2,11 +2,11 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 import MySQLdb
 import MySQLdb.cursors
 import collections, json
-import db_config
+import config
 
 # Configuration
-DEBUG          = True
-SECRET_KEY     = '\xc6)\x0f\\\xc5\x86*\xd7[\x92\x89[\x95\xcfD\xfd\xc1\x18\x8e\xf1P\xf7_\r'
+DEBUG      = config.DEBUG_MODE
+SECRET_KEY = config.APP_SECRET_KEY
 
 # Create the flask app
 application = Flask(__name__)
@@ -14,7 +14,7 @@ application.config.from_object(__name__)
 
 # Function to connect to DB
 def connect_db():
-    return MySQLdb.connect(host=db_config.host, user=db_config.user, passwd=db_config.passwd, db=db_config.dbname, cursorclass=MySQLdb.cursors.DictCursor)
+    return MySQLdb.connect(host=config.DB['host'], user=config.DB['user'], passwd=config.DB['passwd'], db=config.DB['dbname'], cursorclass=MySQLdb.cursors.DictCursor)
 
 # define functions that will make DB available automatically on each request
 @application.before_request
