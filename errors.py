@@ -11,3 +11,7 @@ class LoginError (Exception):
 class NoUserFoundError(LoginError):
     def get_error_message(self):
         return "No user found with email {}".format(self.user.email)
+
+class WrongPasswordError(LoginError):
+    def get_error_message(self):
+        return "Wrong email/password for {}. Please recheck login details.".format(self.user.email)
