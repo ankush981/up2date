@@ -3,6 +3,7 @@ import MySQLdb
 import MySQLdb.cursors
 import collections, json
 import config
+from errors import *
 
 # Configuration
 DEBUG      = config.DEBUG_MODE
