@@ -12,14 +12,13 @@ SECRET_KEY = config.APP_SECRET_KEY
 application = Flask(__name__)
 application.config.from_object(__name__)
 
-# Function to connect to DB
-def connect_db():
-    return MySQLdb.connect(host=config.DB['host'], user=config.DB['user'], passwd=config.DB['passwd'], db=config.DB['dbname'], cursorclass=MySQLdb.cursors.DictCursor)
-
 # define functions that will make DB available automatically on each request
 @application.before_request
 def before_request():
-    g.db = connect_db()
+    try:
+        g.db = db.DbConnect('app')
+    except DbConnectError:
+        print("Error connecting to app DB")
     g.cursor = g.db.cursor()
 
 @application.teardown_request
@@ -41,10 +40,6 @@ def login():
         g.cursor.execute('SELECT email, password FROM users WHERE email = %s', [request.form['email']])
         row = g.cursor.fetchone()
         
-        f = open('/home/ankush/projects/up2date/log', 'w')
-        f.write(repr(row))
-        f.close()
-
         if not row:
             flash('No such user exists!')
             return redirect(url_for('show_home'))
