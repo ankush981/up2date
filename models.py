@@ -1,11 +1,25 @@
 """Simple wrapper class for DB access"""
-import MySQLdb
-import MySQLdb.cursors
-import config
+from flask.ext.sqlalchemy import SQLAlchemy
 
-class DbConnect:
-    def __init__(self, key):
-        self.db = MySQLdb.connect(host = config.DB[key]['host'], user = config.DB[key]['user'], 
-            passwd = config.DB[key]['passwd'], db = config.DB[key]['dbname'], cursorclass = MySQLdb.cursors.DictCursor)
+db = SQLAlchemy()
 
-    
+class User(db.Model):
+    __tablename__ = 'users'
+    email = db.Column(db.String(100), primary_key=True)
+    password = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100))
+    sites = db.Column(db.String(100))
+
+class Category(db.Model):
+    __tablename__ = "categories"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True)
+    websites = db.relationship('Website', backref='category')
+
+class Website(db.Model):
+    __tablename__ = "websites"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    url = db.Column(db.String(1000), nullable=False)
+    class_name = db.Column(db.String(50), nullable=False)
