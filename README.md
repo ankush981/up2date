@@ -8,7 +8,8 @@ In a hurry? Go straight to the [app](http://up2date.plainsight.in).
 Up2date is built on:
 
 * Python 3.4
-* Flask 0.10.0
+* Flask
+* Flask SQLAlchemy
 * BeautifulSoup 4
 * MySQL
 * Bootstrap
@@ -27,13 +28,13 @@ The app is running [here](http://up2date.plainsight.in).
 * Set up a virtual environment
 * Install the required pip packages from requirements.txt
 * Set up the DB (covered later)
-* Create config.py having the following:
+* Create `config.py` having the following:
 ```
 DATABASE_URI = 'mysql://user:pass@localhost/up2date'
 DEBUG_MODE = True
 APP_SECRET_KEY = 'Secret key here'
 ```
-* Finally, the script scraper/scraper.py needs to be set up as a cron job, respecting the virtualenv.
+* Finally, the script `scraper/scraper.py` needs to be set up as a cron job, respecting the virtualenv.
 
 ##### DB setup
 
