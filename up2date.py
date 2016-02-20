@@ -64,7 +64,7 @@ def show_dashboard():
             all_data = UserManager().get_all_websites()
             subscriptions = UserManager().get_subscriptions(session.get('email'))
             if subscriptions:
-                subscriptions = subscriptions['sites'].split(',')
+                subscriptions = subscriptions.split(',')
             else:
                 subscriptions = list()
             return render_template('dashboard.html', all_data=all_data, subscriptions=subscriptions)
