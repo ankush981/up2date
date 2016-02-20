@@ -6,3 +6,4 @@ run.sh
 scraper/classes/data/**
 **/__pycache__/**
 *sublime*
+**/.fuse*
