@@ -5,29 +5,23 @@ class Up2dateException(Exception):
     def get_error_message(self):
         raise NotImplementedError
 
-
 """Classes for handling login"""
 class LoginError (Up2dateException):
-    def __init__(self, user): # to-do: Define user class
-        self.user = user
+    def __init__(self, email): # to-do: Define user class
+        self.email = email
 
     def get_error_message(self):
         '''The default error messages. All derived classes must provide their own.'''
-        return "Unknown login error for email {}. Please retry.".format(self.user.email)
+        return "Unknown login error for {}. Please retry.".format(self.email)
 
 class NoUserFoundError(LoginError):
     def get_error_message(self):
-        return "No user found with email {}".format(self.user.email)
+        return "No user found with email {}".format(self.email)
 
 class WrongPasswordError(LoginError):
     def get_error_message(self):
-        return "Wrong email/password for {}. Please recheck login details.".format(self.user.email)
+        return "Wrong email/password for {}. Please recheck login details.".format(self.email)
 
-"""Exceptions for DB access"""
-class DBError(Up2dateException):
-    def get_error_message(self, db):
-        return "Unknown database error"
-
-class DBConnectError(DBError):
-    def get_error_message(self, db):
-        return "Couldn't connect to DB using these credentials: Host = {}, Username = {}, Password = {}, DB name = {}".format(db.host, db.username, db.passwd, db.dbname)
+class UserAlreadyExistsError(LoginError):
+    def get_error_message(self):
+        return "Sorry, but the email {} is already taken!".format(self.email)

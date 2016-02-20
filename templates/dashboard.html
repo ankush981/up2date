@@ -9,12 +9,12 @@
                 {% for category, websites in all_data.items(): %}
                     <div class="col-md-3 category">
                         <div class="category-heading">
-                            {{ category }}
+                            {{ "category" }}
                         </div>
                         <div class="category-list">
                             <ul>
                                 {% for w in websites: %}
-                                    <li><input type="checkbox" class="website" id='{{ w[0] }}'> {{ w[1] }}&nbsp;&nbsp;<a href="{{ w[2] }}" target="_blank"><img src="{{ url_for('static', filename='img/icon-link.png') }}" width="12" height="12"></a></li>
+                                    <li><input type="checkbox" class="website" id='{{ w.id }}'> {{ w.name }}&nbsp;&nbsp;<a href="{{ w.url }}" target="_blank"><img src="{{ url_for('static', filename='img/icon-link.png') }}" width="12" height="12"></a></li>
                                 {% endfor %}
                             </ul>
                         </div>

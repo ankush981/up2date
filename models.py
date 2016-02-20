@@ -14,7 +14,7 @@ class Category(db.Model):
     __tablename__ = "categories"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True)
-    websites = db.relationship('Website', backref='category')
+    websites = db.relationship('Website', backref='category', lazy='dynamic')
 
 class Website(db.Model):
     __tablename__ = "websites"
