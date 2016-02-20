@@ -37,7 +37,7 @@ APP_SECRET_KEY = 'Secret key here'
 
 ##### DB setup
 
-The DB schema can be determined easily by looking into models.py.
+The DB schema can be determined easily by looking into `models.py`.
 
 Please note:
 * `category_id` in `websites` has a foreign key constraint.
@@ -50,4 +50,4 @@ Up2date was coded in a passionate hurry, so it lacks many things that I'll be ad
 * Validating email addresses of new registrations.
 * Option of individual mail and digest.
 * Allowing users to set up different alert times.
-* Make the code base more object-oriented (now only the scraper part isn't object oriented)
+* Make the code base more object-oriented (now only the scraper part isn't object-oriented)
