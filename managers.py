@@ -49,3 +49,9 @@ class UserManager:
 
     def get_subscriptions(self, email):
         return User.query.filter_by(email=email).first().sites
+
+    def update_subscriptions(self, email, sites):
+        user = User.query.filter_by(email=email).first()
+        user.sites = sites
+        db.session.add(user)
+        db.session.commit()

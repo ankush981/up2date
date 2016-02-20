@@ -73,9 +73,8 @@ def show_dashboard():
 def save_subscriptions():
     if request.method == 'POST':
         sites = request.form.get('selected')
-        sites = sites[0:-1] # Remove trailing comma  
-        g.cursor.execute('UPDATE users SET sites = %s WHERE email = %s', [sites, session.get('email')])
-        g.db.commit()
+        sites = sites[0:-1] # Remove trailing comma
+        UserManager().update_subscriptions(session.get('email'), ','.join(sites))
         flash("Subscriptions updated!")
         return "1"
 
