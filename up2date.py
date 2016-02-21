@@ -84,6 +84,3 @@ def logout():
     session.pop('email')
     flash('You were logged out')
     return redirect(url_for('show_home'))
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
