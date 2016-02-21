@@ -14,7 +14,7 @@ this_dir = os.path.dirname(os.path.realpath(__file__))
 
 # import db config from previous directory
 sys.path.insert(0, this_dir + os.sep + '..')
-import db_config
+import config
 
 # The db and cursor objects
 db = None
@@ -25,7 +25,7 @@ html_file_dir = this_dir + os.sep + 'classes' + os.sep + 'data'
 
 # Connect to DB
 try:
-    db = MySQLdb.connect(host=db_config.host, user=db_config.user, passwd=db_config.passwd, db=db_config.dbname, cursorclass=MySQLdb.cursors.DictCursor)
+    db = MySQLdb.connect(host=config.host, user=config.user, passwd=config.passwd, db=config.dbname, cursorclass=MySQLdb.cursors.DictCursor)
     cursor = db.cursor()
 except Exception as e:
     print("Something horrible occurred!")

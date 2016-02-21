@@ -74,7 +74,7 @@ def save_subscriptions():
     if request.method == 'POST':
         sites = request.form.get('selected')
         sites = sites[0:-1] # Remove trailing comma
-        UserManager().update_subscriptions(session.get('email'), ','.join(sites))
+        UserManager().update_subscriptions(session.get('email'), sites)
         flash("Subscriptions updated!")
         return "1"
 
