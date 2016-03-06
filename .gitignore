@@ -1,7 +1,5 @@
 log
 config.py
-wsgi.py
-up2date.ini
 up2date.sock
 run.sh
 scraper/classes/data/**

@@ -14,7 +14,7 @@
             <div class="alert alert-info">
                 <h4>Registered users log in here</h4>
             </div>            
-            <form class="form-inline" role="form" action="{{ url_for('login') }}" method="post">
+            <form class="form-signin" role="form" action="{{ url_for('login') }}" method="post">
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email">
@@ -23,7 +23,10 @@
                     <label for="pwd">Password</label>
                     <input type="password" class="form-control" name="password">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                    <input type="checkbox" name="remember_me" value="yes"> Remember me next time
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
             </form>
         </div>
 
@@ -31,7 +34,7 @@
             <div class="alert alert-danger">
                 <h4>No account? Register here</h4>
             </div>            
-            <form class="form-inline" role="form" action="{{ url_for('register') }}" method="post">
+            <form class="form-signin" role="form" action="{{ url_for('register') }}" method="post">
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email">
@@ -40,7 +43,7 @@
                     <label for="pwd">Password</label>
                     <input type="password" class="form-control" name="password">
                 </div>
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-primary">Register me!</button>
             </form>
         </div>
     </div>

@@ -23,11 +23,13 @@ def show_home():
     else:
         return render_template('home.html', error=None)
 
+# Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember_me = request.form.get('remember_me')
 
         try:
             LoginManager().check_user(email, password)
@@ -42,6 +44,7 @@ def login():
             session['email'] = email
             return redirect(url_for('show_dashboard'))
 
+# Register route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -56,6 +59,7 @@ def register():
             flash('Registration successful! You may log in now.')
             return redirect(url_for('show_home'))
 
+#Dashboard route
 @app.route('/dashboard', methods=['GET', 'POST'])
 def show_dashboard():
     if not session.get('logged_in'):
@@ -68,7 +72,7 @@ def show_dashboard():
             else:
                 subscriptions = list()
             return render_template('dashboard.html', all_data=all_data, subscriptions=subscriptions)
-
+# Save route
 @app.route('/save', methods=['POST'])
 def save_subscriptions():
     if request.method == 'POST':
@@ -78,6 +82,7 @@ def save_subscriptions():
         flash("Subscriptions updated!")
         return "1"
 
+# Logout route
 @app.route('/logout')
 def logout():
     session.pop('logged_in')
