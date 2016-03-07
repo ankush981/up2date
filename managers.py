@@ -3,9 +3,8 @@ from models import *
 from errors import *
 from collections import OrderedDict
 
-class LoginManager:
+class LoginManagerOld:
     def check_user(self, email=None, password=None):
-        import sys
         
         user = User.query.filter_by(email=email, password=password).first()
 
