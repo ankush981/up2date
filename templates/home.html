@@ -14,8 +14,8 @@
         <div class="col-md-6">
             <div class="alert alert-info">
                 <h4>Registered users log in here</h4>
-            </div>            
-            {{ wtf.quick_form(login_form) }}
+            </div>      
+            {{ wtf.quick_form(login_form, action="/login")}}
         </div>
         <div class="col-md-6">
             <div class="alert alert-danger">

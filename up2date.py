@@ -19,10 +19,7 @@ app.config['SECRET_KEY'] = config.APP_SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Wrap the app in security
-# user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-# security = Security(app, user_datastore)
-
+# Wrap it in Bootstrap
 Bootstrap(app)
 
 # Wrap the app in login manager from Flask-Login
@@ -69,23 +66,15 @@ def show_home():
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print('*' * 20)
-    print('Reached here')
-    form = LoginForm(request.form)
-    print('*' * 20)
-    print(request.form)
-    if request.method == 'POST' and form.validate():
-        email = request.form.get('email')
-        password = request.form.get('password')
-        remember_me = request.form.get('remember_me')
-
-        user = User(email, password)
-        login_user(user)
-        flash('Logged in successfully!')
-        return redirect(url_for('show_dashboard'))
-    login_form = LoginForm()
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user, form.remember_me.data)
+            return redirect(request.args.get('next') or url_for('show_dashboard'))
+        flash('Invalid email or password')
     reg_form = RegForm()
-    return redirect(url_for('show_home'))
+    return render_template('home.html', login_form = form, reg_form = reg_form)
 
 # Register route
 @app.route('/register', methods=['GET', 'POST'])

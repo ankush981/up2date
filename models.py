@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(200), unique=True, index=True)
+    password_hash = db.Column(db.String(200), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     
     def __repr__(self):
