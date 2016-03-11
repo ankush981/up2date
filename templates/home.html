@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block page %}
     <div class="jumbotron">
         <h1>
@@ -14,42 +15,13 @@
             <div class="alert alert-info">
                 <h4>Registered users log in here</h4>
             </div>            
-            <form class="form-signin" role="form" action="{{ url_for('login') }}" method="post">
-                {{ login_form.hidden_tag() }}
-                <div class="form-group">
-                    {{ login_form.email.label }}
-                    {{ login_form.email ( ** {'class' : 'form-control'} ) }}
-                </div>
-                <div class="form-group">
-                    {{ login_form.password.label }}
-                    {{ login_form.password ( ** {'class' : 'form-control'} ) }}
-                </div>
-                <div class="form-group">
-                    {{ login_form.remember_me }} {{ login_form.remember_me.label }}         
-                </div>
-                <div class="form-group">
-                    {{ login_form.submit ( ** {'class' : "btn btn-primary"} ) }}
-                </div>          
-            </form>
+            {{ wtf.quick_form(login_form) }}
         </div>
         <div class="col-md-6">
             <div class="alert alert-danger">
                 <h4>No account? Register here!</h4>
             </div>            
-            <form class="form-signin" role="form" action="{{ url_for('register') }}" method="post">
-                {{ reg_form.hidden_tag() }}
-                <div class="form-group">
-                    {{ reg_form.email.label }}
-                    {{ reg_form.email ( ** {'class' : 'form-control'} ) }}
-                </div>
-                <div class="form-group">
-                    {{ reg_form.password.label }}
-                    {{ reg_form.password ( ** {'class' : 'form-control'} ) }}
-                </div>
-                <div class="form-group">
-                    {{ reg_form.submit ( ** {'class' : "btn btn-primary"} ) }}
-                </div>          
-            </form>
+            {{ wtf.quick_form(reg_form) }}
         </div>        
     </div>
     

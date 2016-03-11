@@ -8,6 +8,9 @@ from managers import *
 from forms import *
 from flask.ext.login import *
 from flask_wtf.csrf import CsrfProtect
+from flask.ext.script import Manager, Server, Shell
+from flask.ext.migrate import Migrate, MigrateCommand
+from flask_bootstrap import Bootstrap
 
 # Create the flask app
 app = Flask(__name__)
@@ -20,9 +23,17 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 # security = Security(app, user_datastore)
 
-# Wrap the app in login manager
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+Bootstrap(app)
+
+# Wrap the app in login manager from Flask-Login
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'show_home'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 # Wrap the add in db objects also
 # Note: db is defined in models.py
@@ -32,10 +43,17 @@ db.init_app(app)
 csrf = CsrfProtect()
 csrf.init_app(app)
 
-# The callback for login manager
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.get(user_id)
+# Make important objects available on Shell
+def make_shell_context():
+    return dict(app=app, db=db, User=User, Role=Role)
+
+# Wrap shit in a Scrip manager
+manager = Manager(app)
+
+# Set up database migration
+migrate = Migrate(app, db)
+manager.add_command('db', MigrateCommand)
+manager.add_command("shell", Shell(make_context=make_shell_context))
 
 @app.route('/')
 def show_home():
@@ -112,7 +130,10 @@ def save_subscriptions():
 # Logout route
 @app.route('/logout')
 def logout():
-    session.pop('logged_in')
-    session.pop('email')
+    logout_user()
     flash('You were logged out')
     return redirect(url_for('show_home'))
+
+if __name__ == "__main__":
+    manager.add_command("runserver", Server(host="0.0.0.0", port=5000))
+    manager.run()
