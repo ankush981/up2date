@@ -1,12 +1,11 @@
 from flask import Flask, request, redirect, url_for, abort, render_template, flash
-from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required
 import collections, json
 import config
 from errors import *
 from models import *
 from managers import *
 from forms import *
-from flask.ext.login import login_user, logout_user, LoginManager, current_user
+from flask.ext.login import login_user, logout_user, LoginManager, current_user, login_required
 from flask_wtf.csrf import CsrfProtect
 from flask.ext.script import Manager, Server, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
