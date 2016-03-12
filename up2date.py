@@ -54,6 +54,8 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 
 @app.route('/')
 def show_home():
+    if current_user is not None and current_user.is_authenticated:
+        return redirect(url_for('show_dashboard'))
     login_form = LoginForm()
     reg_form = RegForm()
     return render_template('home.html', login_form = login_form, reg_form = reg_form)
@@ -89,12 +91,8 @@ def register():
 #Dashboard route
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
-def show_dashboard():
-    print('===============')
-    print(current_user)
-    if not session.get('logged_in'):
-        return redirect(url_for('show_home'))
-    elif session.get('logged_in') == True:
+def show_dashboard():        
+    if current_user is not None and current_user.is_authenticated:
             all_data = UserManager().get_all_websites()
             subscriptions = UserManager().get_subscriptions(session.get('email'))
             if subscriptions:
@@ -102,6 +100,8 @@ def show_dashboard():
             else:
                 subscriptions = list()
             return render_template('dashboard.html', all_data=all_data, subscriptions=subscriptions)
+    return redirect(url_for('show_home'))
+
 # Save route
 @app.route('/save', methods=['POST'])
 @login_required

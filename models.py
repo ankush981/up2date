@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.email
 
     @property
     def password(self):
