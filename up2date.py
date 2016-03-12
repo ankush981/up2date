@@ -93,13 +93,11 @@ def register():
 @login_required
 def show_dashboard():        
     if current_user is not None and current_user.is_authenticated:
-            all_data = UserManager().get_all_websites()
-            subscriptions = UserManager().get_subscriptions(session.get('email'))
-            if subscriptions:
-                subscriptions = subscriptions.split(',')
-            else:
-                subscriptions = list()
-            return render_template('dashboard.html', all_data=all_data, subscriptions=subscriptions)
+            um = UserManager()
+            all_data = um.get_all_websites()
+            user_web = um.get_subscriptions(current_user)
+
+            return render_template('dashboard.html', all_data=all_data, subscriptions=user_web)
     return redirect(url_for('show_home'))
 
 # Save route

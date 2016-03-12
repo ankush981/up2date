@@ -6,14 +6,14 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                {% for category, websites in all_data.items(): %}
+                {% for cat in all_data: %}
                     <div class="col-md-3 category">
                         <div class="category-heading">
-                            {{ category }}
+                            {{ cat.name }}
                         </div>
                         <div class="category-list">
                             <ul>
-                                {% for w in websites: %}
+                                {% for w in cat.websites: %}
                                     <li><input type="checkbox" class="website" id='{{ w.id }}'> {{ w.name }}&nbsp;&nbsp;<a href="{{ w.url }}" target="_blank"><img src="{{ url_for('static', filename='img/icon-link.png') }}" width="12" height="12"></a></li>
                                 {% endfor %}
                             </ul>
@@ -38,7 +38,7 @@
     <script>
         $(document).ready(function(){
             {% for s in subscriptions: %}
-                $("#{{s}}").attr("checked", true);
+                $("#{{s.id}}").attr("checked", true);
             {% endfor %}
 
             $(document).on('click', '#save', function(){
