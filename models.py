@@ -1,6 +1,6 @@
 """Simple wrapper class for DB access"""
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.security import UserMixin, RoleMixin
+from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()

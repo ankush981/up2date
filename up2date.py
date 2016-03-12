@@ -1,4 +1,4 @@
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from flask import Flask, request, redirect, url_for, abort, render_template, flash
 from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required
 import collections, json
 import config
@@ -6,7 +6,7 @@ from errors import *
 from models import *
 from managers import *
 from forms import *
-from flask.ext.login import *
+from flask.ext.login import login_user, logout_user, LoginManager, current_user
 from flask_wtf.csrf import CsrfProtect
 from flask.ext.script import Manager, Server, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -54,14 +54,9 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 
 @app.route('/')
 def show_home():
-    if 'logged_in' in session and session['logged_in'] == True:
-        return redirect(url_for('show_dashboard'))
-    elif request.method == 'POST':
-        return True
-    else:
-        login_form = LoginForm()
-        reg_form = RegForm()
-        return render_template('home.html', error=None, login_form = login_form, reg_form = reg_form)
+    login_form = LoginForm()
+    reg_form = RegForm()
+    return render_template('home.html', login_form = login_form, reg_form = reg_form)
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -95,6 +90,8 @@ def register():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def show_dashboard():
+    print('===============')
+    print(current_user)
     if not session.get('logged_in'):
         return redirect(url_for('show_home'))
     elif session.get('logged_in') == True:
