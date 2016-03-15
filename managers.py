@@ -3,7 +3,7 @@ from models import *
 from errors import *
 from flask.ext.login import current_user
 
-class LoginManager:
+class RegistrationManager:
     def register_user(self, email=None, password=None):
         user = User.query.filter_by(email=email, password=password).all()
 
@@ -13,6 +13,7 @@ class LoginManager:
         user = User()
         user.email = email
         user.password = password
+        user.role_id = 1
 
         db.session.add(user)
         db.session.commit()

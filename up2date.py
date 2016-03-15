@@ -79,7 +79,7 @@ def register():
         email = request.form['email']
         password = request.form['password']
         try:
-            LoginManagerOld().register_user(email, password)
+            RegistrationManager().register_user(email, password)
         except UserAlreadyExistsError as e:
             flash(e.get_error_message())
             return redirect(url_for('show_home'))
