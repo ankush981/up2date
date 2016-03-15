@@ -1,6 +1,7 @@
 """Manager classes for Login, Preferences, etc."""
 from models import *
 from errors import *
+from flask.ext.login import current_user
 
 class LoginManager:
     def register_user(self, email=None, password=None):
@@ -27,12 +28,10 @@ class UserManager:
     def get_subscriptions(self, user):
         return user.websites
 
-    def update_subscriptions(self, user, websites):
-        if user.websites is None:
-            user.wesbites = list()
+    def update_subscriptions(self, web_ids):
+        for w_id in web_ids:
+            w = Website.query.filter_by(id=w_id).one()
+            current_user.websites.append(w)
 
-        for w in websites:
-            user.websites.append(w)
-
-        db.session.add(user)
+        db.session.add(current_user)
         db.session.commit()

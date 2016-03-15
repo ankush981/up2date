@@ -100,15 +100,14 @@ def show_dashboard():
     return redirect(url_for('show_home'))
 
 # Save route
+@csrf.exempt
 @app.route('/save', methods=['POST'])
 @login_required
 def save_subscriptions():
     if request.method == 'POST':
-        sites = request.form.get('selected')
-        sites = sites[0:-1] # Remove trailing comma
-        UserManager().update_subscriptions(session.get('email'), sites)
-        flash("Subscriptions updated!")
-        return "1"
+        sites = json.loads(request.form.get('selected'))
+        UserManager().update_subscriptions(sites)
+        return "Subscriptions updated!"
 
 # Logout route
 @app.route('/logout')

@@ -42,20 +42,20 @@
             {% endfor %}
 
             $(document).on('click', '#save', function(){
-                var selected = "";
+                var selected = [];
                 $(".website").each(function(){                                   
                     if ($(this).is(':checked') == true) {
-                        selected += ($(this).attr("id")) + ",";
+                        selected.push($(this).attr("id"));
                     }                    
                 });
-                selected = selected.trim();
+                
                 $.ajax({
                     url     : "{{ url_for('save_subscriptions') }}",
-                    data    : {"selected": selected},
+                    data    : {"selected": JSON.stringify(selected)},
                     type    : 'POST',
                     success : function(e){
-                        if(e == 1)
-                            window.location.reload()
+                                //e is a string containing status message
+                                alert(e);
                     },
                     error   : function(a,b,c){
                         alert("Oops, an error occurred! Please try again.");
