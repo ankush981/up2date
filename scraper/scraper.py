@@ -32,23 +32,19 @@ except Exception as e:
     print(e)
 
 # Get details of websites with non-zero subscriptions
-cursor.execute('SELECT sites FROM users')
+cursor.execute('SELECT DISTINCT website_id FROM user_website')
 rows = cursor.fetchall()
 
-# Set whose members are website ids with > 0 subscriptions. 
-websites = set()
+websites = list()
 
 for row in rows:
-    row = row["sites"] 
-    row = row.split(',') # Collect all comma-separated value in list
-    for r in row:
-        websites.add(r) # Add to set - will discard duplicates
+    websites.append(row['website_id'])
 
 # Dictionary to hold all data - keys are website id
 html_of_websites = dict()
 
 for site_id in websites:
-    cursor.execute('SELECT url, class_name FROM websites WHERE id = %s', [site_id])
+    cursor.execute('SELECT url, class_name FROM website WHERE id = %s', [site_id])
     row = cursor.fetchone()
     
     url = row['url']
@@ -65,18 +61,29 @@ for site_id in websites:
     html_of_websites[site_id] = instance.getSummary()
 
 # Now get individual mailers and send summary
-cursor.execute('SELECT email, sites FROM users')
-users = cursor.fetchall()
+cursor.execute('SELECT email, website_id FROM user INNER JOIN user_website ON user.id = user_website.user_id')
+users_temp = cursor.fetchall()
 
+# Convert to dictionary indexed by email
+users = dict()
+
+for user in users_temp:
+    if user['email'] in users.keys():
+        users[user['email']].append(user['website_id'])
+    else:
+        users[user['email']] = [user['website_id']]
+
+# Templates for mail start and end
 body_start = "<html><head></head><body>Here are your updates: <br>"
 body_end = "<br><br>Have fun,<br>Ankush from Plainsight</body></html>"
 
 from_addr = 'ankush@plainsight.in'
 smtpObj = smtplib.SMTP('localhost')
 
-for user in users:
-    to_addr = user['email']
-    sites = user['sites'].split(',')
+
+# Start preparing emails for users individually
+for email, sites in users.items():
+    to_addr = email
 
     msg = MIMEMultipart('alternative')
     msg['Subject'] = 'Your updates from Up2date'
