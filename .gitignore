@@ -1,6 +1,7 @@
 log
 config.py
 up2date.sock
+up2date.ini
 run.sh
 scraper/classes/data/**
 **/__pycache__/**
