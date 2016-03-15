@@ -30,6 +30,12 @@ class UserManager:
         return user.websites
 
     def update_subscriptions(self, web_ids):
+
+        # First, empty all subscriptions
+        current_user.websites = []
+        db.session.add(current_user)
+        db.session.commit()
+        
         for w_id in web_ids:
             w = Website.query.filter_by(id=w_id).one()
             current_user.websites.append(w)
