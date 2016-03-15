@@ -27,7 +27,6 @@ The app is running [here](http://up2date.plainsight.in).
 * Paste the code in a directory of your choice.
 * Set up a virtual environment
 * Install the required pip packages from requirements.txt
-* Set up the DB (covered later)
 * Create `config.py` having the following:
 ```
 DATABASE_URI = 'mysql://user:pass@localhost/up2date'
@@ -40,15 +39,10 @@ APP_SECRET_KEY = 'Secret key here'
 
 The DB schema can be determined easily by looking into `models.py`.
 
-Please note:
-* `category_id` in `websites` has a foreign key constraint.
-* `sites` in `users` holds the ids of subscriptions as a comma-separated string. So, if I subscribe to site ids 1, 4 and 5, my `sites` field would contain `1,4,5` (as a string, of course).
-
 #### Wish list
 
 Up2date was coded in a passionate hurry, so it lacks many things that I'll be adding subsequently:
 * Have at least 50 important websites crawled daily.
-* Validating email addresses of new registrations.
 * Option of individual mail and digest.
 * Allowing users to set up different alert times.
 * Make the code base more object-oriented (now only the scraper part isn't object-oriented)
