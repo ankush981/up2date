@@ -13,7 +13,14 @@
 <body>
     <div class="container">
         <div class="row" id="logo">
-            <a href="{{ url_for('show_dashboard') }}"><img src="{{ url_for('static', filename='img/up2date-logo.png') }}" width="135" height="50"></a>
+            <a href="
+                {% if current_user.is_authenticated: %}
+                    {{ url_for('show_dashboard') }}
+                {% else: %}
+                    {{ url_for('show_home') }}
+                {% endif %}
+            ">
+                <img src="{{ url_for('static', filename='img/up2date-logo.png') }}" width="135" height="50"></a>
         </div>
         {% for message in get_flashed_messages() %}
             <div class="row">
